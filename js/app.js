@@ -11,6 +11,11 @@ app.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', function($s
           templateUrl: 'partials/landing.html',
           controller: 'LandingController'
       })
+      .state('authenticate', {
+          url: '/authenticate/:token',
+          templateUrl: 'partials/authenticate.html',
+          controller: 'AuthController'
+      })
       .state('dashboard', {
           url: '/dashboard',
           templateUrl: 'partials/dashboard.html',
