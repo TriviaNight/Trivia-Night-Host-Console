@@ -1,26 +1,53 @@
-console.log('hello from app');
-var app = angular.module('HostConsole', ['ui.router','ngStorage']);
+var app = angular.module('trivapp', ['ui.bootstrap', 'ui.router', 'ngCookies', 'ngStorage']);
 
-app.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', function($stateProvider, $urlRouterProvider, $httpProvider) {
+app.run(function($rootScope, $location) {
+    $rootScope.location = $location;
+});
+/**
+ * Route configuration for the RDash module.
+ */
+angular.module('trivapp').config(['$stateProvider', '$urlRouterProvider', '$httpProvider',
+    function($stateProvider, $urlRouterProvider, $httpProvider) {
 
-  $urlRouterProvider.otherwise('/dashboard');
+        // For unmatched routes
+        $urlRouterProvider.otherwise('/');
 
-  $stateProvider
-      .state('login', {
-          url: '/',
-          templateUrl: 'partials/landing.html',
-          controller: 'LandingController'
-      })
-      .state('authenticate', {
-          url: '/authenticate/:token',
-          templateUrl: 'partials/authenticate.html',
-          controller: 'AuthController'
-      })
-      .state('dashboard', {
-          url: '/dashboard',
-          templateUrl: 'partials/dashboard.html',
-          controller: 'DashboardController'
-      });
+        // Application routes
+        $stateProvider
+            .state('dashboard', {
+                url: '/dashboard',
+                templateUrl: 'templates/dashboard.html',
+                controller: 'DashboardController',
+                abstract: true,
+            })
+            .state('authenticate', {
+                url: '/authenticate/:token',
+                templateUrl: 'templates/authenticate.html',
+                controller: 'AuthController'
+            })
+            .state('dashboard.index', {
+                url: '',
+                templateUrl: 'templates/dashboardIndex.html'
+            })
+            .state('mockgame', {
+                url: '/game',
+                templateUrl: 'templates/mockgameroom.html',
+                controller: 'PlayGameController'
+            })
+            .state('HostGame', {
+                url: '/host',
+                templateUrl: 'templates/HostGame.html',
+                controller: 'HostGameController'
+            })
+            .state('dashboard.tables', {
+                url: '/tables',
+                templateUrl: 'templates/tables.html'
+            })
+            .state('login', {
+                url: '/',
+                templateUrl: 'templates/landing.html',
+                controller: 'LandingController'
+            });
 
 
 

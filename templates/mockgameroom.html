@@ -1,0 +1,17 @@
+<h1> join and play game </h1>
+<input type="text" name="name" placeholder="game name" ng-model='game.name'>
+<input type="passwrod" name="name" placeholder="game password" ng-model='game.password'>
+<input type="text" name="name" placeholder='user id' ng-model='game.userID'>
+<input type="text" name="name" placeholder='user name' ng-model='game.username'>
+<button ng-click=joinGame(game)>join the game</button>
+
+
+<h1>{{question.question}}</h1>
+<div ng-repeat='(key, value) in question.choice' ng-click=submitResponse(key)>
+  <h1>{{key}}</h1>
+  <h1>{{value}}</h1>
+</div>
+<div ng-repeat='player in players'>
+  <img src={{player.imgURL}}>
+  <span>{{player.username}}</span>
+  <span>{{player.score}}</span> 

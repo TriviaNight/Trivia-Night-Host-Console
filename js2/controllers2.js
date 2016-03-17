@@ -1,78 +1,10 @@
-
-
-/**
- * dashboard Controller
- */
-
-
-app.controller('DashboardController', ['$scope', '$cookieStore', 'HostService', '$localStorage', '$location', function($scope, $cookieStore, HostService, $localStorage, $location) {
-    host = {};
-    HostService.getHostProfile().then(function(host){
-      console.log(host);
-      $scope.host = host;
-      $scope.userImage = host.image_url || 'img/avatar.jpg';
-      $scope.username = host.profile_name;
-      $scope.$apply();
-    });
-
-    /**
-     * Sidebar Toggle & Cookie Control
-     */
-    var mobileView = 992;
-
-    $scope.getWidth = function() {
-        return window.innerWidth;
-    };
-
-    $scope.$watch($scope.getWidth, function(newValue, oldValue) {
-        if (newValue >= mobileView) {
-            if (angular.isDefined($cookieStore.get('toggle'))) {
-                $scope.toggle = ! $cookieStore.get('toggle') ? false : true;
-            } else {
-                $scope.toggle = true;
-            }
-        } else {
-            $scope.toggle = false;
-        }
-
-    });
-
-    $scope.toggleSidebar = function() {
-        $scope.toggle = !$scope.toggle;
-        $cookieStore.put('toggle', $scope.toggle);
-    };
-
-    window.onresize = function() {
-        $scope.$apply();
-    };
-
-    $scope.userImage = host.image_url || 'img/avatar.jpg';
-
-    $scope.logOut = function(){
-      HostService.clearHost();
-      $localStorage.$reset();
-      $location.path('/');
-    };
-
-
-}]);
-
-
-/**
- * Landing Controller
- */
-
-
+console.log('hello from controllers');
 app.controller('LandingController', ['$scope', function($scope){
   console.log('in LandingController');
 }]);
 
-/**
- * HostGame Controller
- */
-
-app.controller('HostGameController', ['$scope', '$location', function($scope, $location){
-  console.log('in host game');
+app.controller('DashboardController', ['$scope', function($scope){
+  console.log('in dashboard');
   var socket = io('http://localhost:3000/')
   socket.on('message', function(message){
     console.log(message);
@@ -113,15 +45,7 @@ app.controller('HostGameController', ['$scope', '$location', function($scope, $l
   $scope.question.correctAnswer = 'A';
   $scope.question.id = 1;
 
-  $scope.returnToDash = function(){
-    $location.path('/dashboard')
-  }
-
 }]);
-
-/**
- * Auth Controller
- */
 
 app.controller('AuthController', ['$stateParams', '$localStorage', '$location', function($stateParams, $localStorage, $location){
   //Get token out of header and set in local storage
@@ -130,11 +54,7 @@ app.controller('AuthController', ['$stateParams', '$localStorage', '$location', 
   $location.path('/dashboard');
 }]);
 
-/**
- * Play Game Controller
- */
-
-app.controller('PlayGameController', ['$scope', function($scope){
+app.controller('GameController', ['$scope', function($scope){
   console.log('in dashboard');
   var socket = io('http://localhost:3000/')
   socket.on('message', function(message){
@@ -171,30 +91,3 @@ app.controller('PlayGameController', ['$scope', function($scope){
   $scope.game.userID = 1;
   $scope.game.imgURL = 'https://lh5.googleusercontent.com/-z8Rv5svpDoU/AAAAAAAAAAI/AAAAAAAAAVM/hR5eR81ACX8/photo.jpg?sz=50'
 }]);
-
-/**
- * Alerts Controller
- */
-
-
-app.controller('AlertsCtrl', ['$scope', AlertsCtrl]);
-
-function AlertsCtrl($scope) {
-    $scope.alerts = [{
-        type: 'success',
-        msg: 'Thanks for visiting! Feel free to create pull requests to improve the dashboard!'
-    }, {
-        type: 'danger',
-        msg: 'Found a bug? Create an issue with as many details as you can.'
-    }];
-
-    $scope.addAlert = function() {
-        $scope.alerts.push({
-            msg: 'Another alert!'
-        });
-    };
-
-    $scope.closeAlert = function(index) {
-        $scope.alerts.splice(index, 1);
-    };
-}

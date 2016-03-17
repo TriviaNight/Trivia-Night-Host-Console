@@ -1,15 +1,32 @@
-<!DOCTYPE html>
-<html ng-app='HostConsole'>
-  <head>
-    <meta charset="utf-8">
-    <title>Trivapp Host Console</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.9/angular.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.10/ngStorage.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.18/angular-ui-router.js"></script>
-  </head>
-  <body>
-      <main ui-view></main>
-      <script src='./js/app.js'></script>
-      <script src='./js/controllers.js'></script>
-  </body>
+<!doctype html>
+<html lang="en" ng-app="trivapp">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>Trivapp</title>
+  <!-- STYLES -->
+  <!-- build:css lib/css/main.min.css -->
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="/css/rdash.min.css">
+  <!-- endbuild -->
+  <!-- SCRIPTS -->
+  <!-- build:js lib/js/main.min.js -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.5/socket.io.min.js'></script>
+  <script type="text/javascript" src="js/angular/angular.js"></script>
+  <script type="text/javascript" src="js/angular/ui-bootstrap-tpls.min.js"></script>
+  <script type="text/javascript" src="js/angular/angular-cookies.min.js"></script>
+  <script type="text/javascript" src="js/angular/angular-ui-router.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.10/ngStorage.min.js"></script>
+  <!-- endbuild -->
+  <!-- Custom Scripts -->
+  <script type="text/javascript" src="js/app.js"></script>
+  <script type="text/javascript" src="js/controllers.js"></script>
+  <script type="text/javascript" src="js/directives.js"></script>
+  <script type="text/javascript" src="js/services.js"></script>
+</head>
+<body>
+  <main ui-view></main>
+</body>
 </html>
