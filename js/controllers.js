@@ -64,6 +64,26 @@ app.controller('DashboardController', ['$scope', '$cookieStore', 'HostService', 
 
 
 app.controller('LandingController', ['$scope', function($scope){
+  $scope.login = function(){
+    console.log('login')
+    window.location='http://localhost:3000/auth/google'
+  }
+  var opts = {
+    containerId: "sub",
+    namespace: "sub",
+    interval: 2000,
+    speed: 200,
+    verbose: false,
+    random: false,
+    best: false
+  };
+  var sub = new Sub([
+      "B. Nothing lets do it.",
+      "C. New things scare me!",
+      "D. I hate trivia.",
+      "Corect answer is B!",
+      "A. Christmas.",
+  ], opts).run();
   console.log('in LandingController');
 }]);
 
@@ -71,8 +91,19 @@ app.controller('LandingController', ['$scope', function($scope){
  * HostGame Controller
  */
 
-app.controller('HostGameController', ['$scope', '$location', function($scope, $location){
+app.controller('HostGameController', ['$scope', '$location', 'HostService', function($scope, $location, HostService){
   console.log('in host game');
+  $scope.gameIsActive = false;
+  $scope.game = {};
+  $scope.host = {};
+  $scope.players = {}
+  $scope.game.hostID = 1;
+  HostService.getHostProfile().then(function(host){
+    $scope.host = host;
+    $scope.game.hostID = host.id;
+    $scope.$apply();
+  });
+
   var socket = io('http://localhost:3000/')
   socket.on('message', function(message){
     console.log(message);
@@ -81,22 +112,37 @@ app.controller('HostGameController', ['$scope', '$location', function($scope, $l
     socket.disconnect();
   });
   $scope.createGame = function(game){
-    console.log('createing game')
-    console.log(game)
+    $scope.gameIsActive = true;
+    $scope.activeRound = 1;
+    $scope.gameMessage = 'Waiting for the host to begin the game!'
+    console.log('createing game');
+    console.log(game);
     socket.emit('createGame', game)
   }
   $scope.askQuestion = function(question){
     console.log(question);
     socket.emit('ask question', question);
   }
-  $scope.game = {};
-  $scope.game.numberOfRounds = 5;
-  $scope.game.questionTime = 8;
-  $scope.game.name = 'my game';
-  $scope.game.password = 'password';
-  $scope.game.hostID = 1;
+
+  socket.on('question', function(question){
+    console.log(question);
+    $scope.gameMessage=question.question
+    $scope.players = {}
+    $scope.incomingQuestion = question;
+    $scope.$apply();
+  })
+
+  socket.on('round over', function(players){
+    $scope.gameMessage="Current Standings after round: "+$scope.activeRound;
+    $scope.activeRound++;
+    $scope.incomingQuestion = {};
+    $scope.players = players;
+    $scope.$apply();
+  });
+
+
   var content = {
-    question: 'what is you favorite color',
+    question: 'what is you favorite color?',
     choice: {}
   };
   content.choice.A = 'blue';

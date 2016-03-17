@@ -1,0 +1,93 @@
+.choice{
+  font-size: 2.5em;
+
+}
+.configlabel{
+  margin-top: 0;
+}
+.configLine{
+  font-size: 2em;
+}
+.gameconfig{
+  width: 100%;
+  height: 700px;
+  display: flex;
+  align-items:  center;
+  flex-direction: column;
+  background-color: rgb(35, 97, 174);
+}
+.gameHomepage{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.gameBox{
+  margin-top: 50px;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.gameinfo{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.gameMessage{
+  margin-bottom: 50px;
+}
+.form-content{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.form-group{
+  width:90%;
+  margin-top: 30px;
+}
+
+.odd{
+  background-color: rgb(200,200,200);
+}
+.smtform{
+  margin-top: 30px;
+}
+
+.topbar{
+  padding: 10px;
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+.questionBox{
+  margin: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width:80%;
+}
+.viewBox{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width:100%;
+}
+#configbtn{
+  color:black;
+}
+#nbrlabel{
+  font-size: 1.5em;
+}
+#numberGrp{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;;
+}
+#seconds, #rounds{
+  width:15%
+}

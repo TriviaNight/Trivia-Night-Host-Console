@@ -55,9 +55,7 @@ function rdWidgetFooter() {
  * Widget Header Directive
  */
 
-angular
-    .module('trivapp')
-    .directive('rdWidgetHeader', rdWidgetTitle);
+app.directive('rdWidgetHeader', rdWidgetTitle);
 
 function rdWidgetTitle() {
     var directive = {
@@ -77,9 +75,8 @@ function rdWidgetTitle() {
  * Widget Directive
  */
 
-angular
-    .module('trivapp')
-    .directive('rdWidget', rdWidget);
+
+app.directive('rdWidget', rdWidget);
 
 function rdWidget() {
     var directive = {
@@ -92,3 +89,21 @@ function rdWidget() {
     function link(scope, element, attrs) {
     }
 }
+
+app.directive('scrollOnClick', function() {
+  return {
+    restrict: 'A',
+    link: function(scope, $elm, attrs) {
+      var idToScroll = attrs.href;
+      $elm.on('click', function() {
+        var $target;
+        if (idToScroll) {
+          $target = $(idToScroll);
+        } else {
+          $target = $elm;
+        }
+        $("body").animate({scrollTop: $target.offset().top}, "slow");
+      });
+    }
+  }
+});

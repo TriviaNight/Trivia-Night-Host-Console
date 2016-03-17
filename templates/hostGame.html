@@ -1,5 +1,53 @@
-<h1> your in the mother fucking dashboard </h1>
-<button  class="btn btn-sm btn-info" ng-click=createGame(game)>create a game<br></button>
-<button class="btn btn-sm btn-info" ng-click=askQuestion(question)>ask a question</button>
+<div class='gameconfig' ng-show='!gameIsActive'>
+  <div class='topbar'>
+    <button id='configbtn' class="btn btn-lg btn-success" ng-click=returnToDash()>return to dashboard</button>
+  </div>
+  <h1 class='configlabel'> Configure Game Settings </h1>
+  <form ng-submit=createGame(game) name='gameForm'>
+    <div class="form-content">
+      <div class="form-group">
+        <label for="name">Name of the Game:</label>
+        <input type="text" class="form-control input-underline input-lg" id="name" placeholder="Name of the game" ng-model=game.name>
+      </div>
 
-<button class="btn btn-sm btn-info" ng-click=returnToDash()>return to dashboard</button>
+      <div class="form-group">
+        <label for="password">Password for the Game:</label>
+        <input type="text" class="form-control input-underline input-lg" id="password" placeholder="Password" ng-model=game.password>
+      </div>
+
+      <div class="form-group" id='numberGrp'>
+        <label  for="seconds" id='nbrlabel'>Round length in seconds:</label>
+        <input type="text" class=" form-control input-underline input-lg" id="seconds" placeholder="10" ng-model=game.questionTime>
+      </div>
+      <div class="form-group" id='numberGrp'>
+        <label  for="rounds" id='nbrlabel'>Number of rounds:</label>
+        <input type="text" class="form-control input-underline input-lg" id="rounds" placeholder="5" ng-model=game.numberOfRounds>
+      </div>
+        <input type='submit' id='configbtn' class='btn btn-lg btn-success smtform' ng-disabled="gameFrom.$invalid" value='Create Game'>
+    </div>
+  </form>
+</div>
+<div class='gameHomepage' ng-show='gameIsActive'>
+  <div class='gameinfo'>
+    <span class='tagLine'>Game Name: {{game.name}}</span>
+    <span class='tagLine'>Game Password: {{game.password}}</span>
+  </div>
+  <div class='gameinfo'>
+    <span class='configLine'>Seconds per round: {{game.questionTime}}</span>
+    <span class='configLine'>Total Rounds: {{game.numberOfRounds}}</span>
+    <span class='configLine'>Current Round: {{activeRound}}</span>
+  </div>
+  <div class='gameBox'>
+    <h2 class='gameMessage'>{{gameMessage}}</h2>
+      <div ng-repeat='(key, value) in incomingQuestion.choice' class='questionBox'>
+        <span class='choice'>{{key}}</span>
+        <span class='choice'>{{value}}</span>
+      </div>
+      <div ng-repeat='player in players' ng-class-odd="'odd'" class=viewBox>
+        <img src={{player.imgURL}}>
+        <span class='choice'>{{player.username}}</span>
+        <span class='choice'>{{player.score}}</span>
+      </div>
+    <button id='configbtn' class="btn btn-lg btn-success smtform" ng-click='askQuestion(question)'>ask next question</button>
+  </div>
+</div>

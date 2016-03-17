@@ -1,0 +1,73 @@
+.big{
+  margin-top: 150px;
+  font-size: 4em;
+}
+.features{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 700px;
+  width: 100%;
+}
+.contentBox{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 700px;
+  width: 100%;
+}
+.contentBox.odd{
+  background-color: rgb(35, 97, 174);
+}
+.footer{
+  display: flex;
+  height:100px;
+  width: 100%;
+}
+.tagLine{
+  font-size: 4em;
+}
+.question{
+  font-size: 2.5em;
+}
+.spacer{
+  margin-bottom: 100px;
+}
+span.icon {
+    background: url('https://developers.google.com/+/images/branding/button-gplus.png') transparent 2px 50% no-repeat;
+    background-size: 40px;
+    display: inline-block;
+    vertical-align: middle;
+    width: 45px;
+    height: 40px;
+    border-right: #DADADA 1px solid;
+}
+span.buttonText {
+    display: inline-block;
+    vertical-align: middle;
+    padding-left: 25px;
+    padding-right: 30px;
+    font-size: 15px;
+    font-weight: bold;
+    font-family: 'Roboto',arial,sans-serif;
+}
+#custom_google_btn {
+    background: rgb(243,243,243);
+    display: block;
+    color: #737373;
+    border-radius: 3px;
+    white-space: nowrap;
+    width: 235px;
+    margin: 0 auto;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #D7D7D7;
+    border-color: rgba(155, 155, 155, 0.3);
+}
+#custom_google_btn:hover {
+    background: rgb(200,200,200);
+    cursor: pointer;
+    border-style: inset;
+}
