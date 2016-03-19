@@ -23,6 +23,10 @@
         <label  for="rounds" id='nbrlabel'>Number of rounds:</label>
         <input type="text" class="form-control input-underline input-lg" id="rounds" placeholder="5" ng-model=game.numberOfRounds>
       </div>
+      <div class="form-group">
+        <label for="password">Select a Deck:</label>
+        <input type="text" ng-model="game.deck" uib-typeahead="deck as deck.name for deck in decks | filter:$viewValue | limitTo:8" class="form-control input-underline input-lg">
+      </div>
         <input type='submit' id='configbtn' class='btn btn-lg btn-success smtform' ng-disabled="gameFrom.$invalid" value='Create Game'>
     </div>
   </form>
@@ -48,6 +52,7 @@
         <span class='choice'>{{player.username}}</span>
         <span class='choice'>{{player.score}}</span>
       </div>
-    <button id='configbtn' class="btn btn-lg btn-success smtform" ng-click='askQuestion(question)'>ask next question</button>
+    <button id='configbtn' ng-show='!returnToMenu' class="btn btn-lg btn-success smtform" ng-click='askQuestion()'>ask next question</button>
+    <button id='configbtn' ng-show='returnToMenu' class="btn btn-lg btn-success smtform" ng-click='returnToDash()'>return to dashboard</button>
   </div>
 </div>

@@ -269,14 +269,14 @@ div.input-mask {
  * Sidebar
  */
 #sidebar-wrapper {
-  background: #30426a;
+  background: rgb(35, 97, 174);
 }
 ul.sidebar .sidebar-main a,
 .sidebar-footer,
 ul.sidebar .sidebar-list a:hover,
 #page-wrapper:not(.open) ul.sidebar .sidebar-title.separator {
   /* Sidebar header and footer color */
-  background: #2d3e63;
+  background:#2F53A0;
 }
 ul.sidebar {
   position: absolute;
@@ -313,7 +313,7 @@ ul.sidebar .sidebar-main .menu-icon {
   line-height: 60px;
 }
 ul.sidebar .sidebar-title {
-  color: #738bc0;
+  color: #A7BBE8;
   font-size: 12px;
   height: 35px;
   line-height: 40px;
@@ -326,7 +326,7 @@ ul.sidebar .sidebar-list {
 ul.sidebar .sidebar-list a {
   text-indent: 25px;
   font-size: 15px;
-  color: #b2bfdc;
+  color: #ECEEF3;
   line-height: 40px;
 }
 ul.sidebar .sidebar-list a:hover {

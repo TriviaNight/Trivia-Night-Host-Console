@@ -19,6 +19,7 @@
   width: 100%;
 }
 .contentBox.odd{
+  color: white;
   background-color: rgb(35, 97, 174);
 }
 .footer{

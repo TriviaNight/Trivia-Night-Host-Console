@@ -66,7 +66,7 @@ app.controller('DashboardController', ['$scope', '$cookieStore', 'HostService', 
 app.controller('LandingController', ['$scope', function($scope){
   $scope.login = function(){
     console.log('login')
-    window.location='http://localhost:3000/auth/google'
+    window.location='https://trivia-app-api.herokuapp.com/auth/google'
   }
   var opts = {
     containerId: "sub",
@@ -93,18 +93,19 @@ app.controller('LandingController', ['$scope', function($scope){
 
 app.controller('HostGameController', ['$scope', '$location', 'HostService', function($scope, $location, HostService){
   console.log('in host game');
+  $scope.returnToMenu = false;
   $scope.gameIsActive = false;
   $scope.game = {};
   $scope.host = {};
   $scope.players = {}
-  $scope.game.hostID = 1;
   HostService.getHostProfile().then(function(host){
     $scope.host = host;
-    $scope.game.hostID = host.id;
+    $scope.game.host_id = host.id;
     $scope.$apply();
+    $scope.decks = HostService.getDecks();
   });
 
-  var socket = io('http://localhost:3000/')
+  var socket = io('https://trivia-app-api.herokuapp.com/')
   socket.on('message', function(message){
     console.log(message);
   })
@@ -112,6 +113,7 @@ app.controller('HostGameController', ['$scope', '$location', 'HostService', func
     socket.disconnect();
   });
   $scope.createGame = function(game){
+    console.log(game.deck);
     $scope.gameIsActive = true;
     $scope.activeRound = 1;
     $scope.gameMessage = 'Waiting for the host to begin the game!'
@@ -119,7 +121,8 @@ app.controller('HostGameController', ['$scope', '$location', 'HostService', func
     console.log(game);
     socket.emit('createGame', game)
   }
-  $scope.askQuestion = function(question){
+  $scope.askQuestion = function(){
+    var question = $scope.game.deck.questions[Math.floor(Math.random()*$scope.game.deck.questions.length)]
     console.log(question);
     socket.emit('ask question', question);
   }
@@ -138,6 +141,15 @@ app.controller('HostGameController', ['$scope', '$location', 'HostService', func
     $scope.incomingQuestion = {};
     $scope.players = players;
     $scope.$apply();
+  });
+
+  socket.on('game over', function(players){
+    $scope.gameMessage="Final Standings";
+    $scope.incomingQuestion = {};
+    $scope.players = players;
+    $scope.returnToMenu = true;
+    $scope.$apply();
+
   });
 
 
@@ -182,7 +194,7 @@ app.controller('AuthController', ['$stateParams', '$localStorage', '$location', 
 
 app.controller('PlayGameController', ['$scope', function($scope){
   console.log('in dashboard');
-  var socket = io('http://localhost:3000/')
+  var socket = io('https://trivia-app-api.herokuapp.com/')
   socket.on('message', function(message){
     console.log(message);
   })

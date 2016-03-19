@@ -13,7 +13,7 @@ app.factory('HostService', ['$http', function($http){
         resolve(profile);
       }
       else{
-        $http.get('http://localhost:3000/hosts/1').then(function(newHost){
+        $http.get('https://trivia-app-api.herokuapp.com/hosts/1').then(function(newHost){
           newHost = newHost.data.data;
           host = newHost;
           profile={
@@ -31,6 +31,9 @@ app.factory('HostService', ['$http', function($http){
   };
   hostActions.clearHost = function(){
     host=null;
+  };
+  hostActions.getDecks = function(){
+    return host.decks;
   };
   return hostActions;
 }]);
