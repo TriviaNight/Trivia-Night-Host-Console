@@ -7,11 +7,27 @@
 
 app.controller('DashboardController', ['$scope', '$cookieStore', 'HostService', '$localStorage', '$location', function($scope, $cookieStore, HostService, $localStorage, $location) {
     host = {};
+
+    //API call to get all of the host information
     HostService.getHostProfile().then(function(host){
-      console.log(host);
       $scope.host = host;
+      $scope.host.decks = HostService.getDecks();
+      $scope.host.questions = HostService.getQuestions();
+      $scope.host.games = HostService.getGames();
       $scope.userImage = host.image_url || 'img/avatar.jpg';
       $scope.username = host.profile_name;
+
+      //get user responses from questions
+      $scope.host.userResponses = []
+      $scope.host.questions.forEach(function(question){
+        question.correctResponses = 0;
+        question.userResponses.forEach(function(response){
+          $scope.host.userResponses.push(response);
+          if(response.correct_answer){
+            question.correctResponses++;
+          }
+        });
+      });
       $scope.$apply();
     });
 
@@ -95,15 +111,26 @@ app.controller('HostGameController', ['$scope', '$location', 'HostService', func
   console.log('in host game');
   $scope.returnToMenu = false;
   $scope.gameIsActive = false;
+  $scope.timer = 0;
   $scope.game = {};
   $scope.host = {};
   $scope.players = {}
   HostService.getHostProfile().then(function(host){
     $scope.host = host;
-    $scope.game.host_id = host.id;
+    $scope.game.host_id = $scope.host.id;
     $scope.$apply();
     $scope.decks = HostService.getDecks();
   });
+
+  $scope.countdown = function() {
+    setTimeout(function() {
+     $scope.timer--;
+     $scope.$apply();
+     if($scope.timer>0){
+       $scope.countdown();
+     }
+    }, 1000);
+  };
 
   var socket = io('https://trivia-app-api.herokuapp.com/')
   socket.on('message', function(message){
@@ -132,6 +159,8 @@ app.controller('HostGameController', ['$scope', '$location', 'HostService', func
     $scope.gameMessage=question.question
     $scope.players = {}
     $scope.incomingQuestion = question;
+    $scope.timer = $scope.game.questionTime;
+    $scope.countdown();
     $scope.$apply();
   })
 
@@ -153,23 +182,6 @@ app.controller('HostGameController', ['$scope', '$location', 'HostService', func
   });
 
 
-  var content = {
-    question: 'what is you favorite color?',
-    choice: {}
-  };
-  content.choice.A = 'blue';
-  content.choice.B = 'red';
-  content.choice.C = 'green';
-  content.choice.D = 'black';
-  content.choice.E = 'im not sure';
-  content.round = 1;
-
-  $scope.question = {};
-  $scope.question.content = content;
-
-  $scope.question.hostID = 1;
-  $scope.question.correctAnswer = 'A';
-  $scope.question.id = 1;
 
   $scope.returnToDash = function(){
     $location.path('/dashboard')

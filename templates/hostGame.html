@@ -32,6 +32,7 @@
   </form>
 </div>
 <div class='gameHomepage' ng-show='gameIsActive'>
+
   <div class='gameinfo'>
     <span class='tagLine'>Game Name: {{game.name}}</span>
     <span class='tagLine'>Game Password: {{game.password}}</span>
@@ -40,6 +41,9 @@
     <span class='configLine'>Seconds per round: {{game.questionTime}}</span>
     <span class='configLine'>Total Rounds: {{game.numberOfRounds}}</span>
     <span class='configLine'>Current Round: {{activeRound}}</span>
+  </div>
+  <div class='timer'>
+    <h2>Time left in round: {{timer}}</h2>
   </div>
   <div class='gameBox'>
     <h2 class='gameMessage'>{{gameMessage}}</h2>

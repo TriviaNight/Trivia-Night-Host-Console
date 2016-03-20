@@ -1,6 +1,45 @@
+p{
+  text-indent: 40px;
+}
+.aboutDetails{
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.aboutIcon{
+  font-size: 20em;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.aboutHolder{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width:100%;
+}
+.aboutPadding{
+  padding: 5%;
+}
 .big{
   margin-top: 150px;
   font-size: 4em;
+}
+.compHeader{
+  font-size: 3em;
+  margin-bottom: 30px;
+}
+.compDetails{
+  font-size: 1.5em;
+}
+.contentLine{
+  margin-top: 50px;
+  margin-bottom: 80px;
+  font-size: 3.5em;
 }
 .features{
   display: flex;
@@ -24,7 +63,9 @@
 }
 .footer{
   display: flex;
-  height:100px;
+  justify-content: center;
+  height:70px;
+  align-items: center;
   width: 100%;
 }
 .tagLine{
@@ -71,4 +112,10 @@ span.buttonText {
     background: rgb(200,200,200);
     cursor: pointer;
     border-style: inset;
+}
+#ai2{
+  width:30%;
+}
+#ad2{
+  width:70%;
 }
