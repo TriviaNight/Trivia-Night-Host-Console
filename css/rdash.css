@@ -1,5 +1,6 @@
 @import url("landing.css");
 @import url("hostgame.css");
+@import url("dashboard.css");
 
 #content-wrapper {
   padding-left: 0;
@@ -439,7 +440,7 @@ ul.sidebar .sidebar-list .menu-icon {
   margin-bottom: 10px;
 }
 .widget .widget-body.large {
-  height: 350px;
+  height: 500px;
   overflow-y: auto;
 }
 .widget .widget-body.medium {

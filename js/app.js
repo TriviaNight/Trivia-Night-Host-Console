@@ -41,15 +41,18 @@ angular.module('trivapp').config(['$stateProvider', '$urlRouterProvider', '$http
             })
             .state('dashboard.decks', {
                 url: '/decks',
-                templateUrl: 'templates/decks.html'
+                templateUrl: 'templates/decks.html',
+                ontroller: 'DecksController',
             })
             .state('dashboard.questions', {
                 url: '/questions',
-                templateUrl: 'templates/questions.html'
+                templateUrl: 'templates/questions.html',
+                controller: 'QuestionsController',
             })
             .state('dashboard.statistics', {
                 url: '/statistics',
-                templateUrl: 'templates/statistics.html'
+                templateUrl: 'templates/statistics.html',
+                controller: 'StatisticsController',
             })
             .state('login', {
                 url: '/',

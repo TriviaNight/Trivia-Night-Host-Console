@@ -1,75 +1,86 @@
 <div class="row">
   <div class="col-lg-6">
     <rd-widget>
-      <rd-widget-header icon="fa-tasks" title="Servers">
-        <a href="#">Manage</a>
+      <form ng-submit='addQuestion(question)' name='questionForm'>
+      <rd-widget-header icon="fa-question" title="Add Question">
+        <input type='submit' class="btn btn-sm btn-info" id='configbtn'  ng-disabled="questionFrom.$invalid" value="Add Question">
       </rd-widget-header>
-      <rd-widget-body classes="medium no-padding">
-        <div class="table-responsive">
-          <table class="table">
-            <tbody>
-              <tr><td>RDVMPC001</td><td>238.103.133.37</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-              <tr><td>RDVMPC002</td><td>68.66.63.170</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-              <tr><td>RDVMPC003</td><td>76.117.212.33</td><td><span tooltip="Server Down!" class="text-danger"><i class="fa fa-warning"></i></span></td></tr>
-              <tr><td>RDPHPC001</td><td>91.88.224.5</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-              <tr><td>RDESX001</td><td>197.188.15.93</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-              <tr><td>RDESX002</td><td>168.85.154.251</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-              <tr><td>RDESX003</td><td>209.25.191.61</td><td><span tooltip="Server Down!" class="text-danger"><i class="fa fa-warning"></i></span></td></tr>
-              <tr><td>RDESX004</td><td>252.37.192.235</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-              <tr><td>RDTerminal01</td><td>139.71.18.207</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-              <tr><td>RDTerminal02</td><td>136.80.122.212</td><td><span tooltip="Could not connect!" class="text-warning"><i class="fa fa-flash"></i></span></td></tr>
-              <tr><td>RDDomainCont01</td><td>196.80.245.33</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-            </tbody>
-          </table>
-        </div>      
+      <rd-widget-body classes="large">
+
+          <div class="question-input">
+            <div class="form-group">
+              <label for="usr">Question:</label>
+              <input type="text" class="form-control" id="usr" ng-required='true' ng-model='question.question'>
+            </div>
+            <div class="form-group">
+              <label for="pwd">Choice A:</label>
+              <input type="text" class="form-control" id="pwd" ng-required='true' ng-model='question.choice_a'>
+            </div>
+            <div class="form-group">
+              <label for="pwd">Choice B:</label>
+              <input type="text" class="form-control" id="pwd" ng-required='true'  ng-model='question.choice_b'>
+            </div>
+            <div class="form-group">
+              <label for="pwd">Choice C:</label>
+              <input type="text" class="form-control" id="pwd" ng-required='true'  ng-model='question.choice_c'>
+            </div>
+            <div class="form-group">
+              <label for="pwd">Choice D:</label>
+              <input type="text" class="form-control" id="pwd" ng-required='true'  ng-model='question.choice_d'>
+            </div>
+            <div class="form-group">
+              <label for="pwd">Choice E:</label>
+              <input type="text" class="form-control" id="pwd" ng-required='true'  ng-model='question.choice_e'>
+            </div>
+            <div class="form-group">
+              <label for="sel1">Correct Answer:</label>
+              <select class="form-control" id="sel1" ng-model='question.correct_answer'>
+                <option>A</option>
+                <option>B</option>
+                <option>C</option>
+                <option>D</option>
+                <option>E</option>
+              </select>
+            </div>
+            <div class="form-group">
+            <label for="sel1">Catagory:</label>
+              <select class="form-control" id="sel1"  ng-model='question.catagory_id'>
+                <option  ng-repeat='catagory in catagories' ng-value='catagory.id'>{{catagory.name}}</option>
+              </select>
+            </div>
+          </div>
       </rd-widget-body>
       <rd-widget-footer>
-        <ul class="pagination pagination-sm pull-right">
-          <li><a href="#">&laquo;</a></li>
-          <li><a href="#">1</a></li>
-          <li><a href="#">2</a></li>
-          <li><a href="#">3</a></li>
-          <li><a href="#">4</a></li>
-          <li><a href="#">5</a></li>
-          <li><a href="#">&raquo;</a></li>
-        </ul>
-        <div class="clearfix"></div>
       </rd-widget-footer>
+      </form>
     </rd-widget>
   </div>
   <div class="col-lg-6">
     <rd-widget>
-      <rd-widget-header icon="fa-tasks" title="Striped Servers">
-        <a href="#">Manage</a>
+      <rd-widget-header icon="fa-question" title="My Questions">
+        <input type="text" placeholder="Search Questions" class="form-control input-sm"  ng-model='searchQuestions' />
       </rd-widget-header>
-      <rd-widget-body classes="medium no-padding">
+      <rd-widget-body classes="large no-padding" >
         <div class="table-responsive">
           <table class="table table-striped">
-            <tbody>
-              <tr><td>RDVMPC001</td><td>238.103.133.37</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-              <tr><td>RDVMPC002</td><td>68.66.63.170</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-              <tr><td>RDVMPC003</td><td>76.117.212.33</td><td><span tooltip="Server Down!" class="text-danger"><i class="fa fa-warning"></i></span></td></tr>
-              <tr><td>RDPHPC001</td><td>91.88.224.5</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-              <tr><td>RDESX001</td><td>197.188.15.93</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-              <tr><td>RDESX002</td><td>168.85.154.251</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-              <tr><td>RDESX003</td><td>209.25.191.61</td><td><span tooltip="Server Down!" class="text-danger"><i class="fa fa-warning"></i></span></td></tr>
-              <tr><td>RDESX004</td><td>252.37.192.235</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-              <tr><td>RDTerminal01</td><td>139.71.18.207</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-              <tr><td>RDTerminal02</td><td>136.80.122.212</td><td><span tooltip="Could not connect!" class="text-warning"><i class="fa fa-flash"></i></span></td></tr>
-              <tr><td>RDDomainCont01</td><td>196.80.245.33</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-            </tbody>
+            <thead>
+							<tr><th class="text-center">ID</th><th>Question</th><th>Responses</th><th></th><th></th><th></th><th></th><th>Catagory</th></tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat='question in host.questions | filter: searchQuestions' ><td>{{question.id}}</td><td>{{question.question}}</td><td>A. {{question.response_a}}</td><td>B. {{question.response_b}}</td><td>C. {{question.response_c}}</td><td>D. {{question.response_d}}</td><td>E. {{question.response_e}}</td><td class='text-center'><span ng-style="{'color': question.catagory.color}">{{question.catagory.name}}</span></td></tr>
+						</tbody>
           </table>
         </div>
       </rd-widget-body>
       <rd-widget-footer>
-        <ul class="pagination pagination-sm pull-right">
+        <!-- <ul class="pagination pagination-sm pull-right">
           <li><a href="#">&laquo;</a></li>
           <li><a href="#">1</a></li>
           <li><a href="#">2</a></li>
           <li><a href="#">3</a></li>
           <li><a href="#">&raquo;</a></li>
         </ul>
-        <div class="clearfix"></div>
+        <div class="clearfix"></div> -->
       </rd-widget-footer>
     </rd-widget>
   </div>

@@ -6,16 +6,18 @@
 
 
 app.controller('DashboardController', ['$scope', '$cookieStore', 'HostService', '$localStorage', '$location', function($scope, $cookieStore, HostService, $localStorage, $location) {
-    host = {};
 
+    $scope.host={}
     //API call to get all of the host information
     HostService.getHostProfile().then(function(host){
+      console.log(host)
       $scope.host = host;
       $scope.host.decks = HostService.getDecks();
       $scope.host.questions = HostService.getQuestions();
+
       $scope.host.games = HostService.getGames();
       $scope.userImage = host.image_url || 'img/avatar.jpg';
-      $scope.username = host.profile_name;
+      $scope.host.username = host.profile_name;
 
       //get user responses from questions
       $scope.host.userResponses = []
@@ -26,7 +28,15 @@ app.controller('DashboardController', ['$scope', '$cookieStore', 'HostService', 
           if(response.correct_answer){
             question.correctResponses++;
           }
+
         });
+      });
+      $scope.host.questions.forEach(function(question){
+        if(question.userResponses.length===0){
+          question.percentCorrect = 'Unanswerd'
+        }else{
+          question.percentCorrect = '%'+((question.correctResponses/question.userResponses.length*100).toFixed(2));
+        }
       });
       $scope.$apply();
     });
@@ -62,7 +72,7 @@ app.controller('DashboardController', ['$scope', '$cookieStore', 'HostService', 
         $scope.$apply();
     };
 
-    $scope.userImage = host.image_url || 'img/avatar.jpg';
+    $scope.userImage = $scope.host.userImage || 'img/avatar.jpg';
 
     $scope.logOut = function(){
       HostService.clearHost();
@@ -187,6 +197,39 @@ app.controller('HostGameController', ['$scope', '$location', 'HostService', func
     $location.path('/dashboard')
   }
 
+}]);
+/**
+ * questions Controller
+ */
+
+app.controller('QuestionsController', ['$scope', '$location', 'HostService', '$http', function($scope, $location, HostService, $http){
+  $scope.question={}
+  //Get token out of header and set in local storage
+  HostService.getHostProfile().then(function(host){
+    $scope.host = host;
+    $scope.host.questions = HostService.getQuestions();
+  });
+
+  $http.get('https://trivia-app-api.herokuapp.com/catagories').then(function(catagories){
+    $scope.catagories = catagories.data.data;
+  });
+
+  $scope.addQuestion = function(question){
+    console.log(question)
+    question.user_id = $scope.host.id;
+    $http.post('https://trivia-app-api.herokuapp.com/questions', question).then(function(question){
+      $scope.catagories.forEach(function(catagory){
+        console.log(catagory);
+        console.log(question.data.data.catagory_id)
+        if(catagory.id == question.data.data.catagory_id){
+          question.data.data.catagory = catagory;
+        }
+      })
+      console.log(question.data.data);
+      $scope.host.questions.push(question.data.data);
+      $scope.$apply();
+    });
+  }
 }]);
 
 /**

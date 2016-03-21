@@ -28,7 +28,7 @@
 					<i class="fa fa-database"></i>
 				</div>
 				<div class="title">{{host.decks.length || 0}}</div>
-				<div class="comment">Decks</div>
+				<div class="comment">Total Decks</div>
 			</rd-widget-body>
 		</rd-widget>
 	</div>
@@ -53,12 +53,12 @@
       		</rd-widget-header>
       		<rd-widget-body classes="medium no-padding">
 				<div class="table-responsive">
-					<table class="table">
+					<table class="table table-striped">
 						<thead>
 							<tr><th class="text-center">ID</th><th>Question</th><th>Percent Correct</th><th>Catagory</th></tr>
 						</thead>
 						<tbody>
-							<tr ng-repeat='question in host.questions | filter: searchQuestions' ><td>{{question.id}}</td><td>{{question.question}}</td><td >%{{((question.correctResponses/question.userResponses.length)*100).toFixed(2)}}</td><td class='text-center'><span ng-style="{'color': question.catagory.color}">{{question.catagory.name}}</span></td></tr>
+							<tr ng-repeat='question in host.questions | filter: searchQuestions' ><td>{{question.id}}</td><td>{{question.question}}</td><td >{{question.percentCorrect}}</td><td class='text-center'><span ng-style="{'color': question.catagory.color}">{{question.catagory.name}}</span></td></tr>
 						</tbody>
 					</table>
 				</div>
@@ -72,7 +72,7 @@
 			</rd-widget-header>
 			<rd-widget-body classes="medium no-padding">
 				<div class="table-responsive">
-					<table class="table">
+					<table class="table table-striped">
 						<thead>
 							<tr><th class="text-center">ID</th><th>Name</th><th>Questions in deck</th></tr>
 						</thead>
