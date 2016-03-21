@@ -1,76 +1,99 @@
+<button class="btn btn-lg margin-left" id='configbtn' ng-click="open()">Create a new Deck</button>
 <div class="row">
-  <div class="col-lg-6">
+  <div class="col-lg-6" ng-show='!modDeck'>
     <rd-widget>
-      <rd-widget-header icon="fa-tasks" title="Servers">
-        <a href="#">Manage</a>
+      <rd-widget-header icon="fa-database" title="Decks">
+        <input type="text" placeholder="Search Decks" class="form-control input-sm"  ng-model='searchDecks' />
       </rd-widget-header>
-      <rd-widget-body classes="medium no-padding">
+      <rd-widget-body classes="large no-padding">
         <div class="table-responsive">
-          <table class="table">
-            <tbody>
-              <tr><td>RDVMPC001</td><td>238.103.133.37</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-              <tr><td>RDVMPC002</td><td>68.66.63.170</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-              <tr><td>RDVMPC003</td><td>76.117.212.33</td><td><span tooltip="Server Down!" class="text-danger"><i class="fa fa-warning"></i></span></td></tr>
-              <tr><td>RDPHPC001</td><td>91.88.224.5</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-              <tr><td>RDESX001</td><td>197.188.15.93</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-              <tr><td>RDESX002</td><td>168.85.154.251</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-              <tr><td>RDESX003</td><td>209.25.191.61</td><td><span tooltip="Server Down!" class="text-danger"><i class="fa fa-warning"></i></span></td></tr>
-              <tr><td>RDESX004</td><td>252.37.192.235</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-              <tr><td>RDTerminal01</td><td>139.71.18.207</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-              <tr><td>RDTerminal02</td><td>136.80.122.212</td><td><span tooltip="Could not connect!" class="text-warning"><i class="fa fa-flash"></i></span></td></tr>
-              <tr><td>RDDomainCont01</td><td>196.80.245.33</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-            </tbody>
-          </table>
-        </div>      
+					<table class="table table-striped">
+						<thead>
+							<tr><th class="text-center">ID</th><th>Name</th><th>Questions in deck</th></tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat='deck in host.decks | filter: searchDecks' ng-click="selectDeck(deck)" ng-class="{'highlight': deck.id == selectedDeck.id}" >
+                <td class="text-center">{{deck.id}}</td><td>{{deck.name}}</td><td class='text-center'>{{deck.questions.length}}</td></tr>
+						</tbody>
+					</table>
+        </div>
       </rd-widget-body>
       <rd-widget-footer>
-        <ul class="pagination pagination-sm pull-right">
-          <li><a href="#">&laquo;</a></li>
-          <li><a href="#">1</a></li>
-          <li><a href="#">2</a></li>
-          <li><a href="#">3</a></li>
-          <li><a href="#">4</a></li>
-          <li><a href="#">5</a></li>
-          <li><a href="#">&raquo;</a></li>
-        </ul>
-        <div class="clearfix"></div>
+        <button class="btn btn-sm" id='configbtn' ng-click='modifyingDeck();'>Modify Deck</button>
+        <button class="btn btn-sm" id='configbtn' ng-click='deleteDeck();'>Delete Deck</button>
       </rd-widget-footer>
     </rd-widget>
   </div>
-  <div class="col-lg-6">
+  <div class="col-lg-6" ng-show='modDeck'>
     <rd-widget>
-      <rd-widget-header icon="fa-tasks" title="Striped Servers">
-        <a href="#">Manage</a>
+      <rd-widget-header icon="fa-database" title="Deck">
       </rd-widget-header>
-      <rd-widget-body classes="medium no-padding">
-        <div class="table-responsive">
+      <rd-widget-body classes="large no-padding">
+        <div class="table-responsive" >
           <table class="table table-striped">
+            <thead class='deckTable'>
+              <h1 class="text-center">{{selectedDeck.name}}<h1>
+            </thead>
+            <thead>
+							<tr><th class="text-center">ID</th><th>Question</th><th>Responses</th><th></th><th></th><th></th><th></th><th>Catagory</th></tr>
+						</thead>
             <tbody>
-              <tr><td>RDVMPC001</td><td>238.103.133.37</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-              <tr><td>RDVMPC002</td><td>68.66.63.170</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-              <tr><td>RDVMPC003</td><td>76.117.212.33</td><td><span tooltip="Server Down!" class="text-danger"><i class="fa fa-warning"></i></span></td></tr>
-              <tr><td>RDPHPC001</td><td>91.88.224.5</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-              <tr><td>RDESX001</td><td>197.188.15.93</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-              <tr><td>RDESX002</td><td>168.85.154.251</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-              <tr><td>RDESX003</td><td>209.25.191.61</td><td><span tooltip="Server Down!" class="text-danger"><i class="fa fa-warning"></i></span></td></tr>
-              <tr><td>RDESX004</td><td>252.37.192.235</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-              <tr><td>RDTerminal01</td><td>139.71.18.207</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-              <tr><td>RDTerminal02</td><td>136.80.122.212</td><td><span tooltip="Could not connect!" class="text-warning"><i class="fa fa-flash"></i></span></td></tr>
-              <tr><td>RDDomainCont01</td><td>196.80.245.33</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
+              <tr ng-repeat='question in selectedDeck.questions' ng-click="selectDeckQuestion(question)" ng-class="{'highlight': question.id == selectedDeckQuestion.id}">
+                <td>{{question.id}}</td><td>{{question.question}}</td><td>A. {{question.response_a}}</td><td>B. {{question.response_b}}</td><td>C. {{question.response_c}}</td><td>D. {{question.response_d}}</td><td>E. {{question.response_e}}</td><td class='text-center'><span ng-style="{'color': question.catagory.color}">{{question.catagory.name}}</span></td></tr>
             </tbody>
           </table>
         </div>
       </rd-widget-body>
       <rd-widget-footer>
-        <ul class="pagination pagination-sm pull-right">
-          <li><a href="#">&laquo;</a></li>
-          <li><a href="#">1</a></li>
-          <li><a href="#">2</a></li>
-          <li><a href="#">3</a></li>
-          <li><a href="#">&raquo;</a></li>
-        </ul>
-        <div class="clearfix"></div>
+        <button class="btn btn-sm" id='configbtn' ng-click='removeQuestion(question)'>Remove Question</button>
+        <button class="btn btn-sm" id='configbtn'ng-click='update()'>Update</button>
+          <button class="btn btn-sm" id='configbtn' ng-click='modifyingDeck()'>Back</button>
       </rd-widget-footer>
     </rd-widget>
   </div>
+  <div class="col-lg-6">
+    <rd-widget>
+      <rd-widget-header icon="fa-question" title="My Questions" >
+
+        <input type="text" placeholder="Search Questions" class="form-control input-sm"  ng-model='searchQuestions' />
+      </rd-widget-header>
+      <rd-widget-body classes="large no-padding" >
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+							<tr><th class="text-center">ID</th><th>Question</th><th>Responses</th><th></th><th></th><th></th><th></th><th>Catagory</th></tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat='question in host.questions | filter: searchQuestions'  ng-click="selectQuestion(question)" ng-class="{'highlight': question.id == selectedQuestion.id}" ><td>{{question.id}}</td><td>{{question.question}}</td><td>A. {{question.response_a}}</td><td>B. {{question.response_b}}</td><td>C. {{question.response_c}}</td><td>D. {{question.response_d}}</td><td>E. {{question.response_e}}</td><td class='text-center'><span ng-style="{'color': question.catagory.color}">{{question.catagory.name}}</span></td></tr>
+						</tbody>
+          </table>
+        </div>
+      </rd-widget-body>
+      <rd-widget-footer>
+          <button class="btn btn-sm" id='configbtn' ng-click='addToDeck()'>Add to Deck</button>
+      </rd-widget-footer>
+    </rd-widget>
+  </div>
+
+</div>
+<div ng-controller="ModalDemoCtrl">
+    <script type="text/ng-template" id="myModalContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Create A Deck</h3>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+              <label for="deckName">Deck Name:</label>
+              <input type="text" class="form-control" id="deckName" ng-required='true'  ng-model='deckName'>
+            </div>
+
+
+
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+        </div>
+    </script>
+
 </div>

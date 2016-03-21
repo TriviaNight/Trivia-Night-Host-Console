@@ -1,3 +1,11 @@
-#test{
-  height: 600px;
+.deckTable{
+  background-color: #f6f6f6;
+}
+.highlight{
+  background-color: rgb(220, 170, 10) !important;
+}
+.margin-left{
+  margin-bottom: 20px;
+  margin-left: 20px;
+
 }

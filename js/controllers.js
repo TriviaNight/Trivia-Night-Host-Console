@@ -194,6 +194,7 @@ app.controller('HostGameController', ['$scope', '$location', 'HostService', func
 
 
   $scope.returnToDash = function(){
+    HostService.clearHost();
     $location.path('/dashboard')
   }
 
@@ -203,6 +204,7 @@ app.controller('HostGameController', ['$scope', '$location', 'HostService', func
  */
 
 app.controller('QuestionsController', ['$scope', '$location', 'HostService', '$http', function($scope, $location, HostService, $http){
+  console.log('in question controller')
   $scope.question={}
   //Get token out of header and set in local storage
   HostService.getHostProfile().then(function(host){
@@ -232,6 +234,124 @@ app.controller('QuestionsController', ['$scope', '$location', 'HostService', '$h
   }
 }]);
 
+/**
+ * Decks Controller
+ */
+
+ app.controller('DecksController', ['$scope', '$location', 'HostService', '$http', '$uibModal', '$log', function($scope, $location, HostService, $http, $uibModal, $log){
+   console.log('in deck controller')
+   $scope.modDeck = false;
+   //Get token out of header and set in local storage
+   HostService.getHostProfile().then(function(host){
+     $scope.host = host;
+     $scope.host.questions = HostService.getQuestions();
+     $scope.host.decks = HostService.getDecks();
+   });
+   $scope.selectDeck = function(deck){
+
+     $scope.selectedDeck = deck;
+   };
+   $scope.selectQuestion = function(question){
+     $scope.selectedQuestion = question;
+   };
+   $scope.selectDeckQuestion = function(question){
+     $scope.selectedDeckQuestion = question;
+   };
+   $scope.modifyingDeck = function(){
+    $scope.modDeck = !$scope.modDeck;
+   };
+   $scope.removeQuestion = function(){
+    $scope.selectedDeck.questions.forEach(function(question, index){
+      if(question.id === $scope.selectedDeckQuestion.id){
+        $scope.selectedDeck.questions.splice(index, 1);
+      }
+    })
+    $scope.selectedDeckQuestion = null;
+   }
+   $scope.deleteDeck = function(){
+    $http.delete('https://trivia-app-api.herokuapp.com/decks/'+$scope.selectedDeck.id).then(function(){
+      $scope.host.decks.forEach(function(deck, index){
+        if(deck.id === $scope.selectedDeck.id){
+          $scope.host.decks.splice(index, 1);
+        }
+      });
+      $scope.selectedDeck = null;
+    });
+   };
+
+   $scope.addToDeck = function(){
+     if($scope.selectedDeck && $scope.selectedQuestion && $scope.modDeck){
+       var found = false;
+       $scope.selectedDeck.questions.forEach(function(question){
+         if(question.id === $scope.selectedQuestion.id){
+           found = true;
+         }
+       })
+       if(!found){
+         $scope.selectedDeck.questions.push($scope.selectedQuestion);
+       }
+     }
+   }
+   $scope.update = function(){
+     $scope.selectedDeck.hostid = $scope.host.id
+     $http.put('https://trivia-app-api.herokuapp.com/decks/questions/'+$scope.selectedDeck.id, $scope.selectedDeck).then(function(deck){
+       console.log(deck);
+       $scope.modDeck = false;
+     })
+   }
+   $scope.items = ['item1', 'item2', 'item3'];
+
+   $scope.animationsEnabled = true;
+
+   $scope.open = function (size) {
+
+    var modalInstance = $uibModal.open({
+        animation: $scope.animationsEnabled,
+        templateUrl: 'myModalContent.html',
+        controller: 'ModalInstanceCtrl',
+        size: size,
+        resolve: {
+          items: function () {
+            return $scope.items;
+          }
+        }
+      });
+
+      modalInstance.result.then(function (deck) {
+        deck.questions = [];
+        $scope.host.decks.push(deck);
+      }, function () {
+        $log.info('Modal dismissed at: ' + new Date());
+      });
+    };
+
+   $scope.toggleAnimation = function () {
+      $scope.animationsEnabled = !$scope.animationsEnabled;
+    };
+
+ }]);
+ /**
+  * ModalInstanceCtrl Controller
+  */
+ app.controller('ModalInstanceCtrl', ['$scope', '$uibModalInstance', '$http', 'HostService', function ($scope, $uibModalInstance, $http, HostService) {
+
+   HostService.getHostProfile().then(function(host){
+     $scope.host = host;
+   });
+   $scope.ok = function () {
+     var createDeck={
+       name: $scope.deckName,
+       user_id: $scope.host.id,
+     }
+     $http.post('https://trivia-app-api.herokuapp.com/decks/createdeck', createDeck).then(function(deck){
+       $uibModalInstance.close(deck.data.data);
+     });
+   };
+
+   $scope.cancel = function () {
+     $uibModalInstance.dismiss('cancel');
+   };
+}]);
 /**
  * Auth Controller
  */

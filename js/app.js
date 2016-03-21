@@ -42,7 +42,7 @@ angular.module('trivapp').config(['$stateProvider', '$urlRouterProvider', '$http
             .state('dashboard.decks', {
                 url: '/decks',
                 templateUrl: 'templates/decks.html',
-                ontroller: 'DecksController',
+                controller: 'DecksController',
             })
             .state('dashboard.questions', {
                 url: '/questions',
