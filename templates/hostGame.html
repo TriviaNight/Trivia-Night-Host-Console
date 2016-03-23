@@ -5,6 +5,7 @@
   <h1 class='configlabel'> Configure Game Settings </h1>
   <form ng-submit=createGame(game) name='gameForm'>
     <div class="form-content">
+      <h2 class='red-alert'>{{gameMessage}}</h2>
       <div class="form-group">
         <label for="name">Name of the Game:</label>
         <input type="text" class="form-control input-underline input-lg" id="name" placeholder="Name of the game" ng-model=game.name>

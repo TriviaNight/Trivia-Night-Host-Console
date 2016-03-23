@@ -146,26 +146,46 @@ app.controller('HostGameController', ['$scope', '$location', 'HostService', func
   socket.on('message', function(message){
     console.log(message);
   })
+  socket.on('fail', function(message){
+    console.log(message)
+    $scope.gameMessage = message;
+    $scope.$apply();
+  })
+
+  socket.on('createdGame', function(){
+    console.log('confirmed')
+    $scope.gameIsActive = true;
+    $scope.gameMessage = 'Waiting for the host to begin the game!'
+    $scope.activeRound = 1;
+    $scope.$apply();
+  })
   $scope.$on("$destroy", function(){
     socket.disconnect();
   });
   $scope.createGame = function(game){
     console.log(game.deck);
-    $scope.gameIsActive = true;
-    $scope.activeRound = 1;
-    $scope.gameMessage = 'Waiting for the host to begin the game!'
-    console.log('createing game');
-    console.log(game);
-    socket.emit('createGame', game)
+    console.log(game.numberOfRounds, 'rounds');
+    console.log(game.deck.questions.length, 'deck length');
+    if(game.numberOfRounds>game.deck.questions.length){
+      $scope.gameMessage = '# Deck questions is less then the amount of rounds' ;
+      $scope.$apply();
+    }else{
+      console.log('createing game');
+      console.log(game);
+      socket.emit('createGame', game)
+    }
   }
   $scope.askQuestion = function(){
-    var question = $scope.game.deck.questions[Math.floor(Math.random()*$scope.game.deck.questions.length)]
+    var questionNumber = Math.floor(Math.random()*$scope.game.deck.questions.length)
+    var question = $scope.game.deck.questions[questionNumber];
+    $scope.game.deck.questions.splice(questionNumber, 1)
     console.log(question);
     socket.emit('ask question', question);
   }
 
   socket.on('question', function(question){
     console.log(question);
+    console.log($scope.game.deck)
     $scope.gameMessage=question.question
     $scope.players = {}
     $scope.incomingQuestion = question;
@@ -174,11 +194,12 @@ app.controller('HostGameController', ['$scope', '$location', 'HostService', func
     $scope.$apply();
   })
 
-  socket.on('round over', function(players){
-    $scope.gameMessage="Current Standings after round: "+$scope.activeRound;
+  socket.on('round over', function(gameState){
+
+    $scope.gameMessage="Correct Answer was "+gameState.answer+" Current Standings after round: "+$scope.activeRound;
     $scope.activeRound++;
     $scope.incomingQuestion = {};
-    $scope.players = players;
+    $scope.players = gameState.players;
     $scope.$apply();
   });
 
@@ -404,6 +425,70 @@ app.controller('PlayGameController', ['$scope', function($scope){
   $scope.game.userID = 1;
   $scope.game.imgURL = 'https://lh5.googleusercontent.com/-z8Rv5svpDoU/AAAAAAAAAAI/AAAAAAAAAVM/hR5eR81ACX8/photo.jpg?sz=50'
 }]);
+
+/**
+ * stats Controller
+ */
+
+ app.controller('StatisticsController', ['$scope', '$location', 'HostService', function($scope, $location, HostService){
+
+   HostService.getHostProfile().then(function(host){
+     $scope.host = host;
+     $scope.host.questions = HostService.getQuestions();
+     $scope.host.decks = HostService.getDecks();
+     $scope.host.decks.forEach(function(deck){
+        $scope.labels2.push(deck.name)
+        $scope.data2[0].push(Math.floor(Math.random()*20))
+     })
+     $scope.host.questions.forEach(function(question){
+       question.userResponses.forEach(function(response){
+         if(response.correct_answer){
+           $scope.data[0]++;
+         }else{
+           $scope.data[1]++;
+         }
+         var date = Date.now()-Date.parse(response.played_on);
+
+         if(date<604800000){
+           console.log()
+           $scope.data3[0][3]++;
+         }else if(date<(604800000*2)){
+           $scope.data3[0][2]++;
+         }else if(date<(604800000*3)){
+          $scope.data3[0][1]++;
+        }else if(date<(604800000*4)){
+          $scope.data3[0][0]++;
+         }
+       })
+     })
+     $scope.$apply();
+   });
+   //Get token out of header and set in local storage
+   $scope.labels = ["Correct Answers", "Wrong Answers"];
+   $scope.data = [0,0];
+
+
+   $scope.labels2 =[];
+
+    $scope.data2 = [
+      []
+    ];
+
+    $scope.labels3 = ["Week 1", "Week 2", "Week 3", "Week 4"];
+    $scope.data3 = [[0, 4, 5, 0]];
+
+    $scope.onClick = function (points, evt) {
+      console.log(points, evt);
+    };
+
+    $scope.labels4 = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
+    $scope.series2 = ['Series A', 'Series B'];
+
+    $scope.data4 = [
+      [65, 59, 80, 81, 56, 55, 40],
+      [28, 48, 40, 19, 86, 27, 90]
+    ];
+ }]);
 
 /**
  * Alerts Controller

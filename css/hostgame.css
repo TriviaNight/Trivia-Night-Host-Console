@@ -53,6 +53,9 @@
 .odd{
   background-color: rgb(200,200,200);
 }
+.red-alert{
+  color:red;
+}
 .smtform{
   margin-top: 30px;
 }

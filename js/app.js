@@ -1,4 +1,4 @@
-var app = angular.module('trivapp', ['ui.bootstrap', 'ui.router', 'ngCookies', 'ngStorage']);
+var app = angular.module('trivapp', ['ui.bootstrap', 'ui.router', 'ngCookies', 'ngStorage', 'chart.js']);
 
 app.run(function($rootScope, $location) {
     $rootScope.location = $location;

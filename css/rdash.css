@@ -1,6 +1,13 @@
 @import url("landing.css");
 @import url("hostgame.css");
 @import url("dashboard.css");
+@import url("statistics.css");
+@import url("angular-chart.css");
+@import url(https://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700);
+
+*{
+  font-family: 'PT Sans Narrow', sans-serif;
+}
 
 #content-wrapper {
   padding-left: 0;
