@@ -438,7 +438,10 @@ app.controller('PlayGameController', ['$scope', function($scope){
      $scope.host.decks = HostService.getDecks();
      $scope.host.decks.forEach(function(deck){
         $scope.labels2.push(deck.name)
-        $scope.data2[0].push(Math.floor(Math.random()*20))
+        $scope.labels4.push(deck.id)
+        $scope.data2[0].push(Math.floor(Math.random()*20)+5)
+        $scope.data4[0].push(Math.floor(Math.random()*60)+10)
+        $scope.data4[1].push(Math.floor(Math.random()*60)+10)
      })
      $scope.host.questions.forEach(function(question){
        question.userResponses.forEach(function(response){
@@ -481,12 +484,12 @@ app.controller('PlayGameController', ['$scope', function($scope){
       console.log(points, evt);
     };
 
-    $scope.labels4 = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
-    $scope.series2 = ['Series A', 'Series B'];
+    $scope.labels4 = [];
+    $scope.series2 = ['Correct', 'Incorrect'];
 
     $scope.data4 = [
-      [65, 59, 80, 81, 56, 55, 40],
-      [28, 48, 40, 19, 86, 27, 90]
+      [],
+      []
     ];
  }]);
 

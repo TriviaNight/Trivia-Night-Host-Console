@@ -36,7 +36,7 @@ angular.module('trivapp').config(['$stateProvider', '$urlRouterProvider', '$http
             })
             .state('HostGame', {
                 url: '/host',
-                templateUrl: 'templates/HostGame.html',
+                templateUrl: 'templates/hostGame.html',
                 controller: 'HostGameController'
             })
             .state('dashboard.decks', {

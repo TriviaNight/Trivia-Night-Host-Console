@@ -49,26 +49,28 @@
 	<div class="col-lg-6">
 		<rd-widget>
       		<rd-widget-header icon="fa-question" title="Questions">
-				        <input type="text" placeholder="Search Questions" class="form-control input-sm"  ng-model='searchQuestions' />
-      		</rd-widget-header>
+						<input type="text" placeholder="Search Questions" class="form-control input-sm"  ng-model='$root.myQuestionDashfilter' id='searchBar'/>
+					</rd-widget-header>
       		<rd-widget-body classes="large no-padding">
-				<div class="table-responsive">
-					<table class="table table-striped">
-						<thead>
-							<tr><th class="text-center">ID</th><th>Question</th><th>Percent Correct</th><th>Catagory</th></tr>
-						</thead>
-						<tbody>
-							<tr ng-repeat='question in host.questions | filter: searchQuestions' ><td>{{question.id}}</td><td>{{question.question}}</td><td >{{question.percentCorrect}}</td><td class='text-center'><span ng-style="{'color': question.catagory.color}">{{question.catagory.name}}</span></td></tr>
-						</tbody>
-					</table>
-				</div>
-			</rd-widget-body>
+						<div class="table-responsive">
+							<table class="table table-striped">
+
+								<thead>
+									<tr><th class="text-center">ID</th><th>Question</th><th>Percent Correct</th><th>Catagory</th></tr>
+								</thead>
+								<tbody>
+
+									<tr ng-repeat='question in host.questions | filter:myQuestionDashfilter' ><td>{{question.id}}</td><td>{{question.question}}</td><td >{{question.percentCorrect}}</td><td class='text-center'><span ng-style="{'color': question.catagory.color}">{{question.catagory.name}}</span></td></tr>
+								</tbody>
+							</table>
+						</div>
+					</rd-widget-body>
 		</rd-widget>
 	</div>
 	<div class="col-lg-6">
 		<rd-widget>
 			<rd-widget-header icon="fa-database" title="Decks">
-				<input type="text" placeholder="Search Decks" ng-mdoel='searchDecks'class="form-control input-sm" />
+				<input type="text" placeholder="Search Decks" ng-model='$root.myDeckDashfilter'class="form-control input-sm" />
 			</rd-widget-header>
 			<rd-widget-body classes="large no-padding">
 				<div class="table-responsive">
@@ -77,7 +79,7 @@
 							<tr><th class="text-center">ID</th><th>Name</th><th>Questions in deck</th></tr>
 						</thead>
 						<tbody>
-							<tr ng-repeat='deck in host.decks | filter: searchDecks'><td class="text-center">{{deck.id}}</td><td>{{deck.name}}</td><td class='text-center'>{{deck.questions.length}}</td></tr>
+							<tr ng-repeat='deck in host.decks | filter: myDeckDashfilter'><td class="text-center">{{deck.id}}</td><td>{{deck.name}}</td><td class='text-center'>{{deck.questions.length}}</td></tr>
 						</tbody>
 					</table>
         </div>
