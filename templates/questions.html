@@ -58,7 +58,7 @@
   <div class="col-lg-6">
     <rd-widget>
       <rd-widget-header icon="fa-question" title="My Questions">
-        <input type="text" placeholder="Search Questions" class="form-control input-sm"  ng-model='searchQuestions' />
+        <input type="text" placeholder="Search Questions" class="form-control input-sm"  ng-model='$root.searchQuestionsinQuestions' />
       </rd-widget-header>
       <rd-widget-body classes="large no-padding" >
         <div class="table-responsive">
@@ -67,7 +67,7 @@
 							<tr><th class="text-center">ID</th><th>Question</th><th>Responses</th><th></th><th></th><th></th><th></th><th>Catagory</th></tr>
 						</thead>
 						<tbody>
-							<tr ng-repeat='question in host.questions | filter: searchQuestions' ><td>{{question.id}}</td><td>{{question.question}}</td><td>A. {{question.response_a}}</td><td>B. {{question.response_b}}</td><td>C. {{question.response_c}}</td><td>D. {{question.response_d}}</td><td>E. {{question.response_e}}</td><td class='text-center'><span ng-style="{'color': question.catagory.color}">{{question.catagory.name}}</span></td></tr>
+							<tr ng-repeat='question in host.questions | filter: searchQuestionsinQuestions' ><td>{{question.id}}</td><td>{{question.question}}</td><td>A. {{question.response_a}}</td><td>B. {{question.response_b}}</td><td>C. {{question.response_c}}</td><td>D. {{question.response_d}}</td><td>E. {{question.response_e}}</td><td class='text-center'><span ng-style="{'color': question.catagory.color}">{{question.catagory.name}}</span></td></tr>
 						</tbody>
           </table>
         </div>
